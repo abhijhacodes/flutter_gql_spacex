@@ -139,9 +139,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           Expanded(
-              child: Center(
-            child: launchCards,
-          )),
+            child: Center(
+              child: launchCards,
+            ),
+          ),
           if (totalPages > 0)
             Container(
               height: 50,

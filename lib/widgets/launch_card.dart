@@ -15,8 +15,11 @@ class LaunchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      color: Colors.amber.shade50,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: Colors.indigo.shade100)),
+      color: Colors.indigo.shade50,
+      shadowColor: Colors.indigo.shade800,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -47,6 +50,9 @@ class LaunchCard extends StatelessWidget {
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: ElevatedButton.icon(
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.green)),
                     icon: const Icon(
                       Icons.arrow_back,
                       size: 15,
