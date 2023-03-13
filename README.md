@@ -8,7 +8,7 @@ API documentation: [https://docs.spacexdata.com/#e001c501-9c09-4703-9e29-f91fbbf
 
 #### GraphQL query for useful data in this API
 
-```json
+```
 query { launches {
     mission_name
     launch_date_local
