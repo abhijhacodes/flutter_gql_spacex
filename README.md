@@ -9,6 +9,23 @@ API documentation: [https://docs.spacexdata.com/#e001c501-9c09-4703-9e29-f91fbbf
 #### GraphQL query for useful data in this API
 
 ```json
+query { launches {
+    mission_name
+    launch_date_local
+    rocket {
+        rocket_name
+    }
+    details
+    links {
+        mission_patch
+        mission_patch_small
+    }
+} }
+```
+
+#### Sample response:
+
+```json
 {
   "mission_name": "FalconSat",
   "launch_date_local": "2006-03-25T10:30:00+12:00",
