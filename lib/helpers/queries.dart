@@ -6,5 +6,5 @@ const String getUpcomingLaunchesQuery = '''
         rocket_name
     }
     details
-} }
+    } }
  ''';

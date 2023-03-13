@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const SelectionArea(child: HomePage()),
+      home: const HomePage(),
     );
   }
 }

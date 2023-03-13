@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_gql_spacex/helpers/queries.dart';
-import 'package:flutter_gql_spacex/helpers/types.dart';
-import 'package:flutter_gql_spacex/widgets/launch_card.dart';
 import 'package:http/http.dart' as http;
 
-import '../widgets/custom_text.dart';
+import 'package:flutter_gql_spacex/widgets/launch_card.dart';
+import 'package:flutter_gql_spacex/widgets/custom_text.dart';
+
+import 'package:flutter_gql_spacex/helpers/queries.dart';
+import 'package:flutter_gql_spacex/helpers/types.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,12 +16,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // for API response and statuses
   late List<dynamic> launches;
   late bool isLoading;
   late String error;
+
+  // to add client side pagination
   late int totalPages = 0;
   late int currentPage = -1;
   late int itemsInCurrentPage;
+  final int itemsPerPage = 20;
 
   @override
   void initState() {
@@ -28,10 +33,10 @@ class _HomePageState extends State<HomePage> {
     launches = [];
     isLoading = true;
     error = "";
-    getUpcomingLaunches();
+    _getUpcomingLaunches();
   }
 
-  Future<void> getUpcomingLaunches() async {
+  Future<void> _getUpcomingLaunches() async {
     try {
       final Uri apiEndpoint =
           Uri.parse("https://main--spacex-l4uc6p.apollographos.net/graphql");
@@ -54,7 +59,8 @@ class _HomePageState extends State<HomePage> {
             details: data['details'] ?? "",
           );
         }).toList();
-        totalPages = (launches.length / 20).ceil();
+
+        totalPages = (launches.length / itemsPerPage).ceil();
         currentPage = 0;
         isLoading = false;
         error = "";
@@ -72,8 +78,9 @@ class _HomePageState extends State<HomePage> {
   void changePage(int page) {
     setState(() {
       currentPage = page;
-      itemsInCurrentPage =
-          page == (totalPages - 1) ? launches.length - (page * 20) : 20;
+      itemsInCurrentPage = page == (totalPages - 1)
+          ? launches.length - (page * itemsPerPage)
+          : itemsPerPage;
     });
   }
 
@@ -84,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     if (isLoading) {
       launchCards = const CircularProgressIndicator();
     } else if (error.isNotEmpty) {
-      launchCards = Text("Something went wrong\n $error");
+      launchCards = Text("Something went wrong\n$error");
     } else {
       double screenWidth = MediaQuery.of(context).size.width;
 
@@ -109,7 +116,8 @@ class _HomePageState extends State<HomePage> {
                         ? 1.2
                         : 1.3),
         itemBuilder: (BuildContext context, int index) {
-          final LaunchType launchDetails = launches[(currentPage * 20) + index];
+          final LaunchType launchDetails =
+              launches[(currentPage * itemsPerPage) + index];
           return LaunchCard(launchDetails: launchDetails);
         },
       );
